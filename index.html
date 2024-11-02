@@ -3,7 +3,7 @@
 <head>
     <title>German Vocab Game</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -17,23 +17,41 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            min-height: -webkit-fill-available; /* iOS viewport fix */
             background: #333;
             touch-action: none;
             font-family: 'Open Sans', Arial, sans-serif;
             overflow: hidden;
             position: relative;
         }
+
+        /* Force landscape on mobile */
+        @media screen and (orientation: portrait) {
+            body {
+                transform: rotate(-90deg);
+                transform-origin: left top;
+                width: 100vh;
+                height: 100vw;
+                position: absolute;
+                top: 100%;
+                left: 0;
+            }
+        }
+
         canvas {
             background: #808080;
             max-width: 100%;
             max-height: 100vh;
             touch-action: none;
             z-index: 1;
+            /* Handle notches and safe areas */
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
+
         .touch-overlay {
             position: fixed;
-            top: 0;
-            bottom: 0;
+            top: env(safe-area-inset-top);
+            bottom: env(safe-area-inset-bottom);
             width: 50%;
             opacity: 0;
             transition: opacity 0.2s;

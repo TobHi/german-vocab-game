@@ -313,8 +313,14 @@ class Game {
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
         
-        // Calculate scale while maintaining aspect ratio
-        const scale = Math.min(windowWidth / this.baseWidth, windowHeight / this.baseHeight);
+        // Force landscape aspect ratio
+        let scale;
+        if (windowWidth < windowHeight) {
+            // If in portrait, swap width and height
+            scale = Math.min(windowHeight / this.baseWidth, windowWidth / this.baseHeight);
+        } else {
+            scale = Math.min(windowWidth / this.baseWidth, windowHeight / this.baseHeight);
+        }
         
         this.canvas.width = this.baseWidth * scale;
         this.canvas.height = this.baseHeight * scale;
