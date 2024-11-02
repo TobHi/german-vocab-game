@@ -306,7 +306,7 @@ class Game {
         
         // Add orientation change listener
         window.addEventListener('orientationchange', () => {
-            setTimeout(() => this.resize(), 100); // Small delay to ensure new dimensions are available
+            setTimeout(() => this.resize(), 100); // Ensure dimensions are updated
         });
         
         // Start game loop
@@ -324,11 +324,9 @@ class Game {
         let newWidth, newHeight;
 
         if (windowAspectRatio > gameAspectRatio) {
-            // Window is wider than game ratio
             newHeight = windowHeight;
             newWidth = newHeight * gameAspectRatio;
         } else {
-            // Window is taller than game ratio
             newWidth = windowWidth;
             newHeight = newWidth / gameAspectRatio;
         }
@@ -336,20 +334,14 @@ class Game {
         this.canvas.width = newWidth;
         this.canvas.height = newHeight;
 
-        // Update scale factors
         this.scaleX = newWidth / this.baseWidth;
         this.scaleY = newHeight / this.baseHeight;
 
-        // Scale the context to maintain crisp rendering
-        this.ctx.scale(this.scaleX, this.scaleY);
+        this.ctx.setTransform(this.scaleX, 0, 0, this.scaleY, 0, 0); // Use setTransform for crisp rendering
 
         // Update game objects with new scale
-        if (this.car) {
-            this.car.updateScale(this.scaleX, this.scaleY);
-        }
-        if (this.obstacles && this.obstacles.length > 0) {
-            this.obstacles.forEach(obstacle => obstacle.updateScale(this.scaleX, this.scaleY));
-        }
+        this.car.updateScale(this.scaleX, this.scaleY);
+        this.obstacles.forEach(obstacle => obstacle.updateScale(this.scaleX, this.scaleY));
     }
 
     setupControls() {
