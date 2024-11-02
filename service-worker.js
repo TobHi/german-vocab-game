@@ -4,8 +4,8 @@ const ASSETS = [
   '/german-vocab-game/index.html',
   '/german-vocab-game/game.js',
   '/german-vocab-game/data/vocabulary.js',
-  '/german-vocab-game/icons/icon-192.png',
-  '/german-vocab-game/icons/icon-512.png',
+  '/german-vocab-game/icon-192.png',
+  '/german-vocab-game/icon-512.png',
   '/german-vocab-game/manifest.json'
 ];
 
