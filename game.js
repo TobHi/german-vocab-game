@@ -316,29 +316,26 @@ class Game {
     resize() {
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
-
-        // Calculate scale while maintaining aspect ratio
-        const gameAspectRatio = this.baseWidth / this.baseHeight;
-        const windowAspectRatio = windowWidth / windowHeight;
-
-        let newWidth, newHeight;
-
-        if (windowAspectRatio > gameAspectRatio) {
-            newHeight = windowHeight;
-            newWidth = newHeight * gameAspectRatio;
+        const targetAspectRatio = 4/3;
+        
+        let scale;
+        if (windowWidth/windowHeight > targetAspectRatio) {
+            scale = windowHeight / this.baseHeight;
         } else {
-            newWidth = windowWidth;
-            newHeight = newWidth / gameAspectRatio;
+            scale = windowWidth / this.baseWidth;
         }
-
-        this.canvas.width = newWidth;
-        this.canvas.height = newHeight;
-
-        this.scaleX = newWidth / this.baseWidth;
-        this.scaleY = newHeight / this.baseHeight;
-
-        this.ctx.setTransform(this.scaleX, 0, 0, this.scaleY, 0, 0); // Use setTransform for crisp rendering
-
+        
+        const newWidth = this.baseWidth * scale;
+        const newHeight = this.baseHeight * scale;
+        
+        this.canvas.width = this.baseWidth;
+        this.canvas.height = this.baseHeight;
+        this.canvas.style.width = `${newWidth}px`;
+        this.canvas.style.height = `${newHeight}px`;
+        
+        this.scaleX = scale;
+        this.scaleY = scale;
+        
         // Update game objects with new scale
         this.car.updateScale(this.scaleX, this.scaleY);
         this.obstacles.forEach(obstacle => obstacle.updateScale(this.scaleX, this.scaleY));

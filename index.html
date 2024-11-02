@@ -3,7 +3,7 @@
 <head>
     <title>German Vocab Game</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, orientation=landscape">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -45,6 +45,14 @@
         }
 
         .touch-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .touch-left {
             position: fixed;
             top: 0;
             bottom: 0;
@@ -77,9 +85,33 @@
     <script>
         // Register service worker for PWA
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./service-worker.js', { scope: './' })
-                .then(registration => console.log('ServiceWorker registration successful'))
-                .catch(err => console.log('ServiceWorker registration failed: ', err));
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js', {
+                    scope: './'
+                }).then(registration => {
+                    console.log('ServiceWorker registration successful');
+                    registration.update();
+                }).catch(err => console.log('ServiceWorker registration failed: ', err));
+            });
+        }
+
+        // Lock to landscape orientation
+        if (screen.orientation) {
+            screen.orientation.lock('landscape')
+                .then(() => console.log('Locked to landscape'))
+                .catch(error => console.error('Orientation lock failed:', error));
+        }
+
+        // Fullscreen API fallback
+        function requestFullscreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            } else if (elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();
+            }
         }
     </script>
 </body>
