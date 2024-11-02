@@ -1,12 +1,12 @@
 const CACHE_NAME = 'vocab-game-v1';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/game.js',
-  '/data/vocabulary.js',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  '/manifest.json'
+  './',
+  './index.html',
+  './game.js',
+  './data/vocabulary.js',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
+  './manifest.json'
 ];
 
 self.addEventListener('install', event => {
