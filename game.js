@@ -320,12 +320,12 @@ class Game {
         const windowAspectRatio = windowWidth / windowHeight;
 
         let scale;
-        if (windowAspectRatio < targetAspectRatio) {
-            // Window is narrower than the target aspect ratio
-            scale = windowWidth / this.baseWidth;
-        } else {
-            // Window is wider than the target aspect ratio
+        if (windowAspectRatio > targetAspectRatio) {
+            // Window is wider than the target ratio
             scale = windowHeight / this.baseHeight;
+        } else {
+            // Window is narrower than the target ratio
+            scale = windowWidth / this.baseWidth;
         }
 
         const newWidth = this.baseWidth * scale;

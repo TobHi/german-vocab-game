@@ -67,9 +67,73 @@
         .touch-active {
             opacity: 1;
         }
+
+        /* Add media queries for orientation */
+        @media screen and (orientation: portrait) {
+            #gameContainer {
+                display: none;
+            }
+            #rotateMessage {
+                display: flex;
+            }
+        }
+        
+        @media screen and (orientation: landscape) {
+            #gameContainer {
+                display: flex;
+            }
+            #rotateMessage {
+                display: none;
+            }
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        #startButton {
+            font-size: 1.5em;
+            padding: 1em 2em;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #rotateMessage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #333;
+            color: #fff;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            display: none;
+        }
     </style>
 </head>
 <body>
+    <div id="rotateMessage">
+        <p>Please rotate your device to landscape mode</p>
+        <p>↻</p>
+    </div>
+    <div id="overlay">
+        <button id="startButton">Start Game</button>
+    </div>
     <div id="gameContainer">
         <div class="touch-overlay touch-left" id="touchLeft"></div>
         <div class="touch-overlay touch-right" id="touchRight"></div>
