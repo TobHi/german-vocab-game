@@ -4,7 +4,7 @@
     "description": "Learn German vocabulary by playing",
     "start_url": "/german-vocab-game/",
     "scope": "/german-vocab-game/",
-    "display": "standalone",
+    "display": "fullscreen",
     "background_color": "#333333",
     "theme_color": "#333333",
     "orientation": "landscape",

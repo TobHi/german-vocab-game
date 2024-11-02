@@ -304,32 +304,46 @@ class Game {
         window.addEventListener('resize', () => this.resize());
         this.setupControls();
         
+        // Add orientation change listener
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => this.resize(), 100); // Small delay to ensure new dimensions are available
+        });
+        
         // Start game loop
         this.gameLoop();
     }
 
     resize() {
-        // Get window dimensions
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
-        
-        // Force landscape aspect ratio
-        let scale;
-        if (windowWidth < windowHeight) {
-            // If in portrait, swap width and height
-            scale = Math.min(windowHeight / this.baseWidth, windowWidth / this.baseHeight);
+
+        // Calculate scale while maintaining aspect ratio
+        const gameAspectRatio = this.baseWidth / this.baseHeight;
+        const windowAspectRatio = windowWidth / windowHeight;
+
+        let newWidth, newHeight;
+
+        if (windowAspectRatio > gameAspectRatio) {
+            // Window is wider than game ratio
+            newHeight = windowHeight;
+            newWidth = newHeight * gameAspectRatio;
         } else {
-            scale = Math.min(windowWidth / this.baseWidth, windowHeight / this.baseHeight);
+            // Window is taller than game ratio
+            newWidth = windowWidth;
+            newHeight = newWidth / gameAspectRatio;
         }
-        
-        this.canvas.width = this.baseWidth * scale;
-        this.canvas.height = this.baseHeight * scale;
-        
-        // Store scale factors
-        this.scaleX = this.canvas.width / this.baseWidth;
-        this.scaleY = this.canvas.height / this.baseHeight;
-        
-        // Update all game objects with new scale
+
+        this.canvas.width = newWidth;
+        this.canvas.height = newHeight;
+
+        // Update scale factors
+        this.scaleX = newWidth / this.baseWidth;
+        this.scaleY = newHeight / this.baseHeight;
+
+        // Scale the context to maintain crisp rendering
+        this.ctx.scale(this.scaleX, this.scaleY);
+
+        // Update game objects with new scale
         if (this.car) {
             this.car.updateScale(this.scaleX, this.scaleY);
         }
