@@ -316,18 +316,21 @@ class Game {
     resize() {
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
-        const targetAspectRatio = 4/3;
-        
+        const targetAspectRatio = this.baseWidth / this.baseHeight;
+        const windowAspectRatio = windowWidth / windowHeight;
+
         let scale;
-        if (windowWidth/windowHeight > targetAspectRatio) {
-            scale = windowHeight / this.baseHeight;
-        } else {
+        if (windowAspectRatio < targetAspectRatio) {
+            // Window is narrower than the target aspect ratio
             scale = windowWidth / this.baseWidth;
+        } else {
+            // Window is wider than the target aspect ratio
+            scale = windowHeight / this.baseHeight;
         }
-        
+
         const newWidth = this.baseWidth * scale;
         const newHeight = this.baseHeight * scale;
-        
+
         this.canvas.width = this.baseWidth;
         this.canvas.height = this.baseHeight;
         this.canvas.style.width = `${newWidth}px`;

@@ -3,7 +3,7 @@
 <head>
     <title>German Vocab Game</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, orientation=landscape">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -16,7 +16,6 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            position: fixed;
             background: #333;
             touch-action: none;
             font-family: 'Open Sans', Arial, sans-serif;
@@ -28,16 +27,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
         }
 
         canvas {
             background: #808080;
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
+            width: 100%;
             height: auto;
             touch-action: none;
             z-index: 1;
@@ -95,15 +89,8 @@
             });
         }
 
-        // Lock to landscape orientation
-        if (screen.orientation) {
-            screen.orientation.lock('landscape')
-                .then(() => console.log('Locked to landscape'))
-                .catch(error => console.error('Orientation lock failed:', error));
-        }
-
-        // Fullscreen API fallback
-        function requestFullscreen() {
+        // Improved orientation and fullscreen handling
+        function requestFullScreen() {
             const elem = document.documentElement;
             if (elem.requestFullscreen) {
                 elem.requestFullscreen();
@@ -113,6 +100,30 @@
                 elem.mozRequestFullScreen();
             }
         }
+
+        // Handle orientation lock with better error handling
+        function lockOrientation() {
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('landscape')
+                    .then(() => console.log('Locked to landscape'))
+                    .catch(error => {
+                        console.error('Orientation lock failed:', error);
+                        // Only show alert in development
+                        if (location.hostname === 'localhost') {
+                            alert('Orientation lock failed: ' + error.message);
+                        }
+                    });
+            } else {
+                console.error('Screen orientation API not supported');
+            }
+        }
+
+        // Try to lock orientation on load and user interaction
+        window.addEventListener('load', lockOrientation);
+        document.addEventListener('click', () => {
+            requestFullScreen();
+            lockOrientation();
+        });
     </script>
 </body>
 </html>
