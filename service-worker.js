@@ -1,12 +1,12 @@
 const CACHE_NAME = 'vocab-game-v1';
 const ASSETS = [
-  './',
-  './index.html',
-  './game.js',
-  './data/vocabulary.js',
-  './icons/icon-192.png',
-  './icons/icon-512.png',
-  './manifest.json'
+  '/german-vocab-game/',
+  '/german-vocab-game/index.html',
+  '/german-vocab-game/game.js',
+  '/german-vocab-game/data/vocabulary.js',
+  '/german-vocab-game/icons/icon-192.png',
+  '/german-vocab-game/icons/icon-512.png',
+  '/german-vocab-game/manifest.json'
 ];
 
 self.addEventListener('install', event => {
