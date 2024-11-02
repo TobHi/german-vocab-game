@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>German Vocab Game</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #333;
+            touch-action: none;
+            font-family: 'Open Sans', Arial, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+        canvas {
+            background: #808080;
+            max-width: 100%;
+            max-height: 100vh;
+            touch-action: none;
+            z-index: 1;
+        }
+        .touch-overlay {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 50%;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 2;
+        }
+        .touch-left {
+            left: 0;
+            background: linear-gradient(to right, rgba(255,255,255,0.1), transparent);
+        }
+        .touch-right {
+            right: 0;
+            background: linear-gradient(to left, rgba(255,255,255,0.1), transparent);
+        }
+        .touch-active {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="touch-overlay touch-left" id="touchLeft"></div>
+    <div class="touch-overlay touch-right" id="touchRight"></div>
+    <canvas id="gameCanvas"></canvas>
+    <script type="module" src="game.js"></script>
+    <script>
+        // Register service worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(registration => console.log('ServiceWorker registration successful'))
+                .catch(err => console.log('ServiceWorker registration failed: ', err));
+        }
+    </script>
+</body>
+</html>
