@@ -7,7 +7,7 @@
     "display": "fullscreen",
     "background_color": "#333333",
     "theme_color": "#333333",
-    "orientation": "landscape",
+    "orientation": "landscape-primary",
     "icons": [
         {
             "src": "/german-vocab-game/icon-192.png",
